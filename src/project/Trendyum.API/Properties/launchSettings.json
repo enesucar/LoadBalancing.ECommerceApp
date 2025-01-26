@@ -1,0 +1,51 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5283",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "launchUrl": "swagger",
+        "applicationUrl": "http://localhost:6001",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+    },
+    "app-1": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "applicationUrl": "http://localhost:4001",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "App1"
+        }
+    },
+    "app-2": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "applicationUrl": "http://localhost:4002",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "App2"
+        }
+    },
+     "app-3": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": false,
+        "applicationUrl": "http://localhost:4003",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "App3"
+        }
+    }
+  }
+}

@@ -1,0 +1,327 @@
+body {
+    font-family: 'Poppins'; /* Varsayılan yazı tipini belirler */
+    color: #FFF; /* Varsayılan yazı rengini belirler */
+}
+
+/* Ekranın 1320 pikselini kullanıp div'i ortalıyorum. Ttüm divleri container class'ı içine alacağım. */
+.container {
+    width: 1320px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+/* NAVBAR START */
+
+.navbar {
+    position: sticky; /* Ekranda Sabit Kal  */
+    top: 0; /*  Yukarıdan 0 piksel boşluk bırak */
+    background-color: #fbfbfb; /*  Arka plan rengini ayarla */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Alt gölge */
+}
+
+/* Div'in içindeki elemenetleri yan yana getiriyorum. Ekranın maksimum 1320 pikselini kullanıp ekranda ortalanacaklar. */
+.navbar-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex; /* Logoyu ve a tagı etiketlerini kapsayan divi yan yana getir */
+    padding: 20px; /* Her bölgeden 20 piksel padding verdim. */
+}
+
+.logo > img {
+    height: 40px; /* Navbar'daki resmin genişliği  */
+    margin-right: 10px; /*  Sağdan 10 piksel boşluk bırak */
+}
+
+.navbar-menu {
+    margin-left: 20px; /* Soldan 20 piksel boşluk bırak */
+    display: flex; /* Navbar'daki her bir a tagını yan yana getir */
+    gap: 20px; /* Her a etiketi arası 20 piksel boşluk bırak  */
+}
+
+/* Navbar içindeki elemanlar */
+.navbar-item {
+    padding: 10px; /* İçten her bölgeden 10 piksel boşluk bırak */
+    display: block;
+    color: #666666; /* Yazı rengi */
+    font-size: 16px; /* Font büyüklüğü */
+    font-weight: bold; /* Yazıyı Kalın yap */
+}
+
+.text-end {
+    text-align: justify; /* For Edge */
+    -moz-text-align-last: right; /* For Firefox prior 58.0 */
+    text-align-last: right;
+}
+
+    .navbar-item:hover {
+        color: #53d118; /* Menü linkinin üzerine geldiğinde yazı rengini değiştir */
+    }
+
+.active {
+    color: #45a049;
+}
+
+/* NAVBAR END */
+
+.intro {
+    margin-top: 15px;
+    background-color: #F0F0F0;
+    display: flex;
+    padding: 30px;
+    color: #666666;
+}
+
+.intro-right {
+    margin-left: 20px;
+}
+
+.intro-right-head {
+    font-size: 42px;
+}
+
+.intro-right-description {
+    margin-top: 5px;
+}
+
+.best-sellers {
+    background-color: #fffaf6;
+    padding: 30px;
+    margin-top: 40px;
+}
+
+.best-sellers-head {
+    margin-top: 20px;
+    color: #666666;
+    font-size: 20px;
+    margin-bottom: 20px; /* Alttan 20 piksel boşluk bırak */
+    font-weight: 500; /* Yazı kalınlığını değiştirir. */
+}
+
+.best-seller-item > img {
+    text-align: center; /* Resmi ortala */
+}
+
+.best-sellers-main {
+    display: flex; /* Her bir elementi yan yana getir */
+}
+
+.best-seller-item {
+    flex: 1; /* Her elementin genişliğini aynı yap */
+    padding: 20px;
+    background-color: #FFF;
+    border: solid 1px #e6e6e6; /* Div kenarlıklarını 1 piksel siyah yap */
+    margin-left: 25px;
+}
+
+.item-name {
+    font-size: 15px;
+    color: #666666;
+    text-align: center;
+}
+
+.item-star {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #666666;
+    display: flex;
+}
+
+.item-stars {
+    margin-left: 10px;
+}
+
+.item-price {
+    font-size: 15px;
+    margin-top: 15px;
+    color: #f27a1a;
+}
+
+/* Yazıyı veya resmi ortalar */
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.features {
+    margin-top: 40px;
+    display: flex;
+    max-width: fit-content; /* Genişliği içindeki divlere göre ayarla */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feature {
+    padding: 20px;
+    margin-left: 25px;
+}
+
+    .feature > img {
+        border-radius: 10%; /* Resmin kenarlıklarını kırp */
+    }
+
+form {
+    padding: 20px;
+    color: #666666;
+}
+
+    form label,
+    form input {
+        display: block;
+    }
+
+/* Inputlara padding, margin, border, ekleme */
+input[type=text], input[type=password], input[type=email], select, textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-danger {
+    background-color: #db1111;
+}
+
+/* Butonun uzunluğunu, arka plan rengini, iç boşluğunu, dış boşluğunu belirleme */
+button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    /* Butonun üzerinde geldiğinde arkaplan rengini değiştir */
+    button:hover {
+        background-color: #45a049;
+    }
+
+.products {
+    margin-top: 30px;
+    padding: 30px;
+    display: flex; /* Ürünler sayfasında Soldaki Filtreleme Div'i ile Sağdaki Ürün listesini Div'ini yan yana getir. */
+    align-items: flex-start; /* Bu divlerin uzunlukları birbirinden bağımsız olsun. Bunu yazmazsak iki div'in de uzunluğu aynı oluyor. */
+    background-color: #fffaf6;
+}
+
+.product-filter {
+    color: #666666;
+    background-color: #FFF;
+    width: 30%;
+    margin-right: 30px;
+    padding: 20px;
+}
+
+.product-filter-head {
+    font-weight: 500;
+}
+
+.product-filter-category-items {
+    padding: 10px;
+}
+
+.product-list {
+    width: 70%;
+    display: flex; /* Ürünleri yan yana getir. */
+    flex-wrap: wrap; /* Birden fazla satır olacağını belirtiyorum. (Bir satırda da 3 ürün olacak. Aşağıdaki flex özelliği)*/
+    gap: 10px;
+}
+
+.product-item {
+    flex: 0 0 calc(33% - 10px); /* Her bir ürünü yan yana getirken tek satırda 3 ürün olsun (%33'lük yer kaplıyor her biri.) */
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #FFF;
+    border: solid 1px #e6e6e6;
+    margin-left: 5px;
+}
+
+.product-detail {
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+    color: #666666;
+}
+
+    .product-detail img {
+        flex: 0 0 30%; /* Resmin maksimum %30 genişlikte kalmasını sağlıyor */
+        max-width: 30%;
+        height: auto; /* Oranı korumak için yükseklik otomatik */
+        border: 1px solid rgb(181, 163, 163);
+        border-radius: 15px;
+    }
+
+.product-name {
+    font-size: 30px;
+}
+
+.product-price {
+    font-size: 25px;
+    margin-top: 15px;
+    color: #f27a1a;
+}
+
+.product-description {
+    margin-top: 15px;
+}
+
+/* Ürünü satın al ve sepete ekle butonları yan yana getiriliyor. */
+.product-button-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* Butonların uzunluğu, paddingi, font büyüklüğünü belirtiyorum. */
+.product-buy-button, .product-add-basket-button {
+    width: 200px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.product-buy-button {
+    background-color: #4CAF50; /* Yeşil renk */
+    color: white;
+}
+
+.product-add-basket-button {
+    background-color: #008CBA; /* Mavi renk */
+    color: white;
+}
+
+    /* Butonların üzerine gelindiğinde opaklık azalsın. */
+    .product-buy-button:hover, .product-add-basket-button:hover {
+        opacity: 0.8; /* Hover efektleri */
+    }
+
+.basket-item-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Başarılı alert mesajı. */
+.alert-success {
+    padding: 20px;
+    background-color: #1cc94a;
+    color: white;
+    border-radius: 15px;
+}
+
+.alert-danger {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #db1111;
+    color: white;
+    border-radius: 15px;
+}

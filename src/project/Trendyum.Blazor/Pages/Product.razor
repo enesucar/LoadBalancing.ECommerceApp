@@ -1,0 +1,148 @@
+﻿@page "/products"
+
+@using Blazored.Toast.Configuration
+@using Blazored.Toast.Services
+@using Trendyum.Blazor.ViewModels.Products
+@using Trendyum.Common.Models.Products
+
+@inject IProductService ProductService
+@inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
+@inject IToastService ToastService
+
+<div style="font-weight: 500; color: #666666; font-size: 25px;">
+	Ürünler 
+</div>
+
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView Roles="Administrator">
+	<Authorized>
+		<button type="submit" @onclick="CreateProduct" style="width:20%">Create Product</button>
+	</Authorized>
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+<div class="products">
+	<div class="product-filter">
+		<div class="product-filter-category">
+			<div class="product-filter-head">Tüm Kategoriler</div>
+			<div class="product-filter-category-items">
+				@if (ProductViewModel.Categories != null)
+				{
+					foreach (var category in ProductViewModel.Categories)
+					{
+						<InputCheckbox @bind-Value="@category.Checked" />
+						<label for="vehicle1">@category.Name</label>
+
+						<br />
+					}
+				}
+			</div><br>
+			<hr><br>
+		</div>
+
+		<div class="product-filter-category">
+			<div class="product-filter-head">Ara</div>
+			<div class="product-filter-category-items">
+				<InputText id="search" type="text" @bind-Value="@ProductViewModel.SearchText" />
+				<br />
+
+			</div><br>
+			<hr><br>
+		</div>
+		<div>
+			<button type="submit" @onclick="Submit">Submit</button>
+		</div>
+	</div>
+	<div class="product-list">
+		@if (ProductViewModel.Products != null)
+		{
+			@foreach (var product in ProductViewModel.Products)
+			{
+				<div class="product-item">
+					<img width="100" class="center" src="@product.ImageUrl" />
+					<div class="best-seller-item-description">
+						<div class="item-name">
+							<a href="/products/@product.Id.ToString()">@product.Name</a>
+						</div>
+						<div class="item-star">
+							<div class="item-star-rating">
+								4
+							</div>
+							<div class="item-stars">
+								⭐⭐⭐⭐ (457)
+							</div>
+						</div>
+						<div class="item-price">
+							@product.Price TL
+						</div>
+					</div>
+				</div>
+			}
+		}
+
+		@* <div class="product-item">
+			<img width="100" class="center" src="./img/product2.webp" />
+			<div class="best-seller-item-description">
+				<div class="item-name">
+					<a href="./product-detail.html">İkinci El OPPO A16</a>
+				</div>
+				<div class="item-star">
+					<div class="item-star-rating">
+						5
+					</div>
+					<div class="item-stars">
+						⭐⭐⭐⭐⭐ (19289)
+					</div>
+				</div>
+				<div class="item-price">
+					9199,99 TL
+				</div>
+			</div>
+		</div>
+
+ *@
+	</div>
+</div>  
+@code {
+	protected ProductViewModel ProductViewModel { get; set; } = new ProductViewModel();
+
+	public async Task Submit()
+	{
+		var productListRequest = new ProductListRequest()
+			{
+				SearchText = ProductViewModel.SearchText,
+				Categories = ProductViewModel.Categories?.Where(o => o.Checked).Select(o => o.Id).ToList()
+			};
+
+		var products = await ProductService.GetList(productListRequest);
+		ProductViewModel.Products = products.Select(product => new ProductItemViewModel()
+			{
+				Id = product.Id,
+				Name = product.Name,
+				Price = product.Price,
+				ImageUrl = product.ImageUrl
+			}).ToList();
+	}
+
+	protected async override Task OnInitializedAsync()
+	{
+		var categories = await CategoryService.GetListAsync();
+		ProductViewModel.Categories = categories.Select(category => new ProductCategoryViewModel()
+			{
+				Id = category.Id,
+				Name = category.Name
+			}).ToList();
+
+		var products = await ProductService.GetList();
+		ProductViewModel.Products = products.Select(product => new ProductItemViewModel()
+			{
+				Id = product.Id,
+				Name = product.Name,
+				Price = product.Price,
+				ImageUrl = product.ImageUrl
+			}).ToList();
+	}
+
+	protected void CreateProduct()
+	{
+		NavigationManager.NavigateTo("/products/create");
+	}
+}

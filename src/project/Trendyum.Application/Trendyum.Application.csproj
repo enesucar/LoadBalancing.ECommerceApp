@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Shared.Caching\Shared.Caching.csproj" />
+    <ProjectReference Include="..\..\shared\Shared.Guids\Shared.Guids.csproj" />
+    <ProjectReference Include="..\..\shared\Shared.Security\Shared.Security.csproj" />
+    <ProjectReference Include="..\..\shared\Shared.Utils\Shared.Utils.csproj" />
+    <ProjectReference Include="..\Trendyum.Common\Trendyum.Common.csproj" />
+    <ProjectReference Include="..\Trendyum.Domain\Trendyum.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

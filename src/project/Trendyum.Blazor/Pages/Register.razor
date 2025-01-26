@@ -1,0 +1,80 @@
+﻿@page "/register"
+
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+@using Trendyum.Blazor.ViewModels.Auth
+@using Trendyum.Blazor.ViewModels.Categories
+@using Trendyum.Blazor.ViewModels.Products
+@using Trendyum.Common.Models.Auth
+@using Trendyum.Common.Models.Products
+
+<div style="font-weight: 500; color: #666666; font-size: 25px;">Register</div>
+
+@if (ShowDangerAlert)
+{
+	<div class="alert-danger">
+		@((MarkupString)DangerAlertMessage)
+	</div>
+}
+
+@if (ShowSuccessAlert)
+{
+	<div class="alert-success">
+		@SuccessAlertMessage
+	</div>
+}
+
+<div class="register">
+	<form method="post" @onsubmit="Submit" style="background-color: #F6F6F6;">
+		<label for="email">Email</label>
+		<InputText id="email" @bind-Value="Model.Email" type="text" placeholder="Enter a email..." required /><br><br>
+
+		<label for="password">Password</label>
+		<InputText id="password" @bind-Value="Model.Password" type="password" placeholder="Enter a password..." required /><br><br>
+
+		<button type="submit">Submit</button>
+	</form>
+</div>
+
+@code {
+	public UserRegisterViewModel Model { get; set; } = new UserRegisterViewModel();
+
+	public bool ShowDangerAlert { get; set; } = false;
+
+	public string DangerAlertMessage { get; set; } = string.Empty;
+
+	public bool ShowSuccessAlert { get; set; } = false;
+
+	public string SuccessAlertMessage { get; set; } = string.Empty;
+
+	public async Task Submit()
+	{
+		var userRegisterRequest = new UserRegisterRequest()
+		{
+			Email = Model.Email,
+			Password = Model.Password
+		};
+
+		var result = await AuthService.RegisterAsync(userRegisterRequest);
+		if (result.Succeeded)
+		{
+			ShowDangerAlert = false;
+			ShowSuccessAlert = true;
+			SuccessAlertMessage = "You have successfully registered.";
+		}
+		else 
+		{
+			ShowDangerAlert = true;
+			ShowSuccessAlert = false;
+
+			var message = "Error! <br/>";
+			if (result.Errors != null)
+			{
+				message += string.Join("<br />", result.Errors.Select(o => o.Description));
+			}
+
+			DangerAlertMessage = message;
+		}
+	}
+}

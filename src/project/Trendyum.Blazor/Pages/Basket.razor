@@ -1,0 +1,74 @@
+﻿@page "/basket"
+
+@using Trendyum.Blazor.ViewModels.Basket
+
+@inject IBasketService BasketService
+
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+	<Authorized>
+		@if (Model.BasketItems != null)
+		{
+			<div style="font-weight: 500; color: #666666; font-size: 25px;">Sepetim (@SumPrice() ₺)</div>
+			<br>
+			<div class="product-list">
+
+				@foreach (var basketItem in Model.BasketItems)
+				{
+
+					<div class="product-item">
+						<img width="100" class="center" src="@basketItem.ImageUrl" />
+						<div class="best-seller-item-description">
+							<div class="item-name">
+								@basketItem.Name
+							</div>
+							<div class="item-star">
+								<div class="item-star-rating">
+									4
+								</div>
+								<div class="item-stars">
+									⭐⭐⭐⭐ (457)
+								</div>
+							</div>
+							<div class="item-price">
+								@basketItem.Price TL
+							</div><br>
+
+							<div class="basket-item-buttons">
+								<button type="submit" class="btn-danger" @onclick="() => RemoveItem(basketItem.Id)">Çıkar</button>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		}
+	</Authorized>
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+
+@code {
+	public BasketViewModel Model { get; set; } = new BasketViewModel();
+
+	protected async override Task OnInitializedAsync()
+	{
+		var basketItems = await BasketService.ItemList();
+		Model.BasketItems = basketItems.Select(o => new BasketItemViewModel()
+			{
+				Id = o.Id,
+				Name = o.Name,
+				Price = o.Price,
+				ImageUrl = o.ImageUrl
+			}).ToList();
+	}
+
+	private decimal SumPrice()
+	{
+		return Model.BasketItems?.Sum(o => o.Price) ?? 0;
+	}
+
+	private async Task RemoveItem(Guid id)
+	{
+		await BasketService.RemoveItem(id);
+
+		var basketItem = Model.BasketItems.FirstOrDefault(o => o.Id == id);
+		Model.BasketItems.Remove(basketItem);
+	}
+}

@@ -1,0 +1,61 @@
+﻿@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using Trendyum.Blazor.Auth
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
+
+<div class="navbar">
+	<!-- Navbar iki div'den meydana geliyor. Biri logo diğeri menu etiketleri. Bunları bir arada tutmak için navbar-container class'ını ekledim. -->
+	<div class="navbar-container">
+		<div class="logo">
+			<img src="./img/logo.png" alt="logo">
+		</div>
+		<!-- Her bir menü elemeanı navbar-menu ile sarmalladım. Böylelikle yan yana gelecekler. -->
+		<div class="navbar-menu">
+			<NavLink class="navbar-item" href="/" Match="NavLinkMatch.All">
+				<span>Home</span>
+			</NavLink>
+			<NavLink class="navbar-item" href="/products">
+				<span>Products</span>
+			</NavLink>
+			<AuthorizeView> 
+				<Authorized>
+					<NavLink class="navbar-item" href="/basket">
+						<span>Basket</span>
+					</NavLink>
+				</Authorized>
+			</AuthorizeView>
+			<AuthorizeView>
+				<Authorized>
+					<NavLink class="navbar-item" @onclick="() => Logout()">
+						<span>Logout</span>
+					</NavLink>
+				</Authorized>
+				<NotAuthorized>
+					<NavLink class="navbar-item" href="/login">
+						<span>Login</span>
+					</NavLink>
+				</NotAuthorized>
+			</AuthorizeView>
+			<AuthorizeView>
+				<NotAuthorized>
+					<NavLink class="navbar-item" href="/register">
+						<span>Register</span>
+					</NavLink>
+				</NotAuthorized>
+			</AuthorizeView>
+		</div>
+	</div>
+</div>
+
+@code {
+
+	public async Task Logout()
+	{
+		await LocalStorageService.RemoveItemAsync("token");
+		((CustomAuthenticationStateProvider)AuthenticationStateProvider).NotifyUserLogout();
+		NavigationManager.NavigateTo("/");
+	}
+}

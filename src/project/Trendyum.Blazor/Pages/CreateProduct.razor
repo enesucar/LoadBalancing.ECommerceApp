@@ -1,0 +1,101 @@
+﻿@page "/products/create"
+@inject IProductService ProductService
+@inject ICategoryService CategoryService
+
+@using Microsoft.AspNetCore.Authorization
+@using Trendyum.Blazor.ViewModels.Categories
+@using Trendyum.Blazor.ViewModels.Products
+@using Trendyum.Common.Models.Products
+
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView Roles="Administrator">
+	<div style="font-weight: 500; color: #666666; font-size: 25px;">Create Product</div>
+	@if (ShowDangerAlert)
+	{
+		<div class="alert-danger">
+			@((MarkupString)DangerAlertMessage)
+		</div>
+	}
+
+	@if (ShowSuccessAlert)
+	{
+		<div class="alert-success">
+			@SuccessAlertMessage
+		</div>
+	}
+	<div class="create-product">
+
+		<form method="post" @onsubmit="Submit" style="background-color: #F6F6F6;">
+			<label for="name">Name</label>
+			<InputText id="name" @bind-Value="Model.Name" type="text" placeholder="Enter a product name..." required /><br><br>
+
+			<label for="description">Description</label>
+			<InputTextArea id="description" @bind-Value="Model.Description" type="text" rows=" 4" cols="50" placeholder="Enter a description..." /><br><br>
+
+			<label for="category">Category</label>
+			<select id="category" @bind="Model.CategoryId">
+				@if (Categories != null)
+				{
+					<option value="">Select...</option>
+					@foreach (var category in Categories)
+					{
+						<option value="@category.Id">@category.Name</option>
+					}
+				}
+			</select><br /><br />
+
+			<label for="price">Price</label>
+			<InputNumber id="price" @bind-Value="Model.Price" type="text" placeholder="Enter a price..." required /><br><br>
+
+			<label for="quantity">Quantity</label>
+			<InputNumber id="quantity" @bind-Value="Model.Quantity" type="text" placeholder="Enter a description" required /><br><br>
+
+			<label for="price">Image</label>
+			<InputFile OnChange="LoadFile" /><br><br />
+
+
+			<!-- Submit butonu -->
+			<button type="submit">Gönder</button>
+		</form>
+
+	</div>
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+
+
+@code {
+	[SupplyParameterFromForm]
+	protected CreateProductViewModel Model { get; set; } = new CreateProductViewModel();
+
+	public List<Category>? Categories { get; set; } = null;
+
+	public IBrowserFile BrowserFile { get; set; } = default!;
+
+	public bool ShowDangerAlert { get; set; } = false;
+
+	public string DangerAlertMessage { get; set; } = string.Empty;
+
+	public bool ShowSuccessAlert { get; set; } = false;
+
+	public string SuccessAlertMessage { get; set; } = string.Empty;
+
+	protected async override Task OnInitializedAsync()
+	{
+		var categories = await CategoryService.GetListAsync();
+		Categories = categories.Select(category => new Category()
+			{
+				Id = category.Id,
+				Name = category.Name
+			}).ToList();
+	}
+
+	private void LoadFile(InputFileChangeEventArgs e)
+	{
+		BrowserFile = e.File;
+	}
+
+	public async Task Submit()
+	{
+		await ProductService.CreateAsync(Model, BrowserFile);
+		ShowSuccessAlert = true;
+		SuccessAlertMessage = "You have successfully added the product.";
+	}
+}

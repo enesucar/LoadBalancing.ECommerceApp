@@ -1,0 +1,24 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/{everything}",
+            "DownstreamScheme": "http",
+            "UseServiceDiscovery": true,
+            "ServiceName": "Trendyum.API",
+            "LoadBalancerOptions": {
+                "Type": "RoundRobin"
+            },
+            "UpstreamPathTemplate": "/{everything}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ],
+            "UpstreamScheme": "http"
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "https://localhost:6001",
+        "ServiceDiscoveryProvider": {
+            "Host": "localhost",
+            "Port": 8761,
+            "Type": "Eureka"
+        }
+    }
+}

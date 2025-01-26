@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.23.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+  </ItemGroup>
+
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Shared.Caching.Redis\Shared.Caching.Redis.csproj" />
+    <ProjectReference Include="..\..\shared\Shared.Json.Newtonsoft\Shared.Json.Newtonsoft.csproj" />
+    <ProjectReference Include="..\..\shared\Shared.Security\Shared.Security.csproj" />
+    <ProjectReference Include="..\Trendyum.Application\Trendyum.Application.csproj" />
+  </ItemGroup>
+
+</Project>

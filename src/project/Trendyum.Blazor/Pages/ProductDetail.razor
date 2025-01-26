@@ -1,0 +1,60 @@
+﻿@page "/products/{id}"
+@using Trendyum.Blazor.ViewModels.Products
+
+@inject IProductService ProductService
+@inject IBasketService BasketService
+
+@if (Model != null)
+{
+	<div class="product-detail">
+		<!-- Ürün Resmi -->
+		<img src="@Model.ImageUrl" />
+		<div class="product-info">
+			<div class="product-name">
+				@Model.Name
+			</div>
+			<!-- Ürün Fiyatı -->
+			<div class="product-price">@Model.Price TL</div>
+			<!-- Ürün Açıklaması -->
+			<div class="product-description">
+				@((MarkupString)Model.Description)
+			</div><br>
+			<!-- Satın Al, Sepete Ekle Butonları -->
+			<div class="product-button-container">
+				<button class="product-buy-button">Satın Al</button>
+				<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+					<Authorized>
+						<button class="product-add-basket-button" @onclick="AddToBasket">Sepete Ekle</button>
+					</Authorized>
+				</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+ 			</div>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public string Id { get; set; }
+
+	public ProductDetailViewModel? Model { get; set; } = null;
+
+	protected async override Task OnInitializedAsync()
+	{
+		var product = await ProductService.GetDetail(Guid.Parse(Id));
+		Model = new ProductDetailViewModel()
+		{
+			Id = product.Id,
+			Name = product.Name,
+			Category = product.Category,
+			Description = product.Description,
+			ImageUrl = product.ImageUrl,
+			Price = product.Price,
+			Quantity = product.Quantity
+		};
+	}
+
+	protected async Task AddToBasket() 
+	{
+		await BasketService.AddItem(Guid.Parse(Id));
+	}
+}

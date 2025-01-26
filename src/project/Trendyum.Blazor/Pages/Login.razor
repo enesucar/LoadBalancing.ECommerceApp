@@ -1,0 +1,75 @@
+﻿@page "/login"
+@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using Trendyum.Blazor.Auth
+@using Trendyum.Blazor.ViewModels.Auth
+
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@using Trendyum.Blazor.ViewModels.Categories
+@using Trendyum.Blazor.ViewModels.Products
+@using Trendyum.Common.Models.Auth
+@using Trendyum.Common.Models.Products
+
+<div style="font-weight: 500; color: #666666; font-size: 25px;">Login</div>
+
+@if (ShowDangerAlert)
+{
+	<div class="alert-danger">
+		@DangerAlertMessage
+	</div>
+}
+
+<div class="login">
+	<form method="post" @onsubmit="Submit" style="background-color: #F6F6F6;">
+		<label for="email">Email</label>
+		<InputText id="email" @bind-Value="Model.Email" type="text" placeholder="Enter a email..." required /><br><br>
+
+		<label for="password">Password</label>
+		<InputText id="password" @bind-Value="Model.Password" type="password" placeholder="Enter a password..." required /><br><br>
+
+		<button type="submit">Gönder</button>
+	</form>
+
+</div>
+
+@code {
+	public UserLoginViewModel Model { get; set; } = new UserLoginViewModel();
+
+	public bool ShowDangerAlert { get; set; } = false;
+
+	public string DangerAlertMessage { get; set; } = string.Empty;
+
+	public async Task Submit()
+	{
+		var userLoginRequest = new UserLoginRequest()
+			{
+				Email = Model.Email,
+				Password = Model.Password
+			};
+
+		var result = await AuthService.LoginAsync(userLoginRequest);
+		if (result.Result == "Succeeded")
+		{
+			var token = result.AccessToken.AccessToken;
+			await LocalStorageService.SetItemAsync("token", token);
+
+			((CustomAuthenticationStateProvider)AuthenticationStateProvider).NotifyUserLogin();
+
+			NavigationManager.NavigateTo("/");
+		}
+		else if (result.Result == "LockedOut")
+		{
+			ShowDangerAlert = true;
+			DangerAlertMessage = "Locket out.";
+		}
+		else if (result.Result == "Failed")
+		{
+			ShowDangerAlert = true;
+			DangerAlertMessage = "Wrong email or password.";
+		}
+	}
+}
